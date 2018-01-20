@@ -30,8 +30,7 @@ public class TabData extends JPanel {
         public void actionPerformed(ActionEvent e) {
             SwingUtilities.invokeLater(new Runnable() {
                 public void run() {
-                    //koszyk zakupow, to jest to
-                    table.getModel().addRow(new Object[]{null, null, null,null,null});
+                    table.getModel().addElement(new Product(null, 0, 0));
                 }
             });
         }

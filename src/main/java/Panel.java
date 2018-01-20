@@ -1,3 +1,4 @@
+import javax.script.Bindings;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
@@ -22,22 +23,18 @@ public class Panel extends JTabbedPane {
 
             SwingUtilities.invokeLater(new Runnable() {
                 public void run() {
-
+                    tab1.area2.setText("");
+                    StringWriter writer = new StringWriter();
+                    engineJS.getContext().setWriter(writer);
                     skrypt = tab1.area1.getText().toString();
-
-
                     try {
-                        in = new ByteArrayInputStream(skrypt.getBytes(StandardCharsets.UTF_8.name()));
-                    } catch (UnsupportedEncodingException e1) {
-                        e1.printStackTrace();
-                    }
-                    reader = new InputStreamReader(in);
-                    try {
-                        engineJRuby.eval(reader);
+                        Bindings scope = engineJS.createBindings();
+                        scope.put("products", table.getModel().getProducts());
+                        Object result = engineJS.eval(skrypt,scope);
+                        tab1.area2.setText(writer.toString());
                     } catch (ScriptException e1) {
                         e1.printStackTrace();
                     }
-
                 }
             });
         }

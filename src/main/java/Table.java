@@ -5,28 +5,23 @@ import java.io.*;
 import java.util.Scanner;
 
 public class Table {
-    private DefaultTableModel model;
+    private ProductDataModel model;
     private JTable table;
 
     public Table() {
-        model = new DefaultTableModel();
+        model = new ProductDataModel();
         table = new JTable(model);
         table.setPreferredScrollableViewportSize(new Dimension(600, 300));
-        model.addColumn("Koszyk");
-        model.addColumn("Cena");
-        model.addColumn("Srednia");
-        model.addColumn("XD");
-        model.addColumn("XDD");
     }
 
     public void read(File file) throws FileNotFoundException {
         Scanner scanner = new Scanner(file);
-        String row = scanner.nextLine();
-        String[] tokens = row.split(";");
+        String row ;
+        String[] tokens;
         while ((scanner.hasNextLine())) {
             row = scanner.nextLine();
             tokens = row.split(";");
-            model.addRow(new Object[]{tokens[0], tokens[1], tokens[2], tokens[3], tokens[4]});
+            model.addElement(new Product(tokens[0],Double.parseDouble(tokens[1]),Integer.parseInt(tokens[2])));
         }
     }
 
@@ -40,7 +35,7 @@ public class Table {
             file.createNewFile();
             output = new BufferedWriter(new FileWriter(file, true));
             for (int i = 0; i < model.getRowCount(); i++) {
-                output.append("\r\n" + model.getValueAt(i, 0) + ";" + model.getValueAt(i, 1) + ";" + model.getValueAt(i, 2) + ";" + model.getValueAt(i, 3) + ";" + model.getValueAt(i, 4) + ";" + model.getValueAt(i, 5));
+                output.append("\r\n" + model.getValueAt(i, 0) + ";" + model.getValueAt(i, 1) + ";" + model.getValueAt(i, 2));
             }
 
         } catch (IOException ex) {
@@ -55,7 +50,7 @@ public class Table {
 
     }
 
-    public DefaultTableModel getModel() {
+    public ProductDataModel getModel() {
         return model;
     }
 

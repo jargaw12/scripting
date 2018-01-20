@@ -8,7 +8,8 @@ public class Frame extends JFrame {
         setMinimumSize(new Dimension(600,300));
         setLocationRelativeTo(null);
         try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            //XD
+            UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (InstantiationException e) {

@@ -3,9 +3,8 @@ import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 
 
 public class Panel extends JTabbedPane {
@@ -23,11 +22,18 @@ public class Panel extends JTabbedPane {
 
             SwingUtilities.invokeLater(new Runnable() {
                 public void run() {
-                    skrypt = tab1.getArea1().getText();
-                    in = this.getClass().getResourceAsStream(skrypt);
+
+                    skrypt = tab1.area1.getText().toString();
+
+
+                    try {
+                        in = new ByteArrayInputStream(skrypt.getBytes(StandardCharsets.UTF_8.name()));
+                    } catch (UnsupportedEncodingException e1) {
+                        e1.printStackTrace();
+                    }
                     reader = new InputStreamReader(in);
                     try {
-                        engineJS.eval(reader);
+                        engineJRuby.eval(reader);
                     } catch (ScriptException e1) {
                         e1.printStackTrace();
                     }
@@ -42,7 +48,13 @@ public class Panel extends JTabbedPane {
                 public void run() {
 
                     skrypt = tab2.area1.getText().toString();
-                    in = this.getClass().getResourceAsStream(skrypt);
+
+
+                    try {
+                        in = new ByteArrayInputStream(skrypt.getBytes(StandardCharsets.UTF_8.name()));
+                    } catch (UnsupportedEncodingException e1) {
+                        e1.printStackTrace();
+                    }
                     reader = new InputStreamReader(in);
                     try {
                         engineJRuby.eval(reader);

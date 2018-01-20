@@ -1,7 +1,4 @@
-import javax.script.Bindings;
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
-import javax.script.ScriptException;
+import javax.script.*;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.io.*;
@@ -30,7 +27,8 @@ public class Panel extends JTabbedPane {
                     try {
                         Bindings scope = engineJS.createBindings();
                         scope.put("products", table.getModel().getProducts());
-                        Object result = engineJS.eval(skrypt,scope);
+                       Object result =  engineJS.eval(skrypt,scope);
+
                         tab1.area2.setText(writer.toString());
                     } catch (ScriptException e1) {
                         e1.printStackTrace();
@@ -39,6 +37,7 @@ public class Panel extends JTabbedPane {
             });
         }
     };
+
     Action s2 = new AbstractAction("Uruchom skrypt 2") {
         public void actionPerformed(ActionEvent e) {
             SwingUtilities.invokeLater(new Runnable() {

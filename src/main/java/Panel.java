@@ -2,8 +2,6 @@ import javax.script.*;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.io.*;
-import java.nio.charset.StandardCharsets;
-
 
 public class Panel extends JTabbedPane {
     ScriptEngineManager managerScript;
@@ -15,7 +13,7 @@ public class Panel extends JTabbedPane {
     Reader reader;
     InputStream in;
 
-    Action s1 = new AbstractAction("Uruchom skrypt 1") {
+    Action s1 = new AbstractAction("Uruchom skrypt Nashorn") {
         public void actionPerformed(ActionEvent e) {
 
             SwingUtilities.invokeLater(new Runnable() {
@@ -30,6 +28,7 @@ public class Panel extends JTabbedPane {
                        Object result =  engineJS.eval(skrypt,scope);
 
                         tab1.area2.setText(writer.toString());
+                        table.getModel().fireTableDataChanged();
                     } catch (ScriptException e1) {
                         e1.printStackTrace();
                     }
@@ -38,22 +37,20 @@ public class Panel extends JTabbedPane {
         }
     };
 
-    Action s2 = new AbstractAction("Uruchom skrypt 2") {
+    Action s2 = new AbstractAction("Uruchom skrypt Ruby") {
         public void actionPerformed(ActionEvent e) {
             SwingUtilities.invokeLater(new Runnable() {
                 public void run() {
-
+                    tab2.area2.setText("");
+                    StringWriter writer = new StringWriter();
+                    engineJRuby.getContext().setWriter(writer);
                     skrypt = tab2.area1.getText().toString();
-
-
                     try {
-                        in = new ByteArrayInputStream(skrypt.getBytes(StandardCharsets.UTF_8.name()));
-                    } catch (UnsupportedEncodingException e1) {
-                        e1.printStackTrace();
-                    }
-                    reader = new InputStreamReader(in);
-                    try {
-                        engineJRuby.eval(reader);
+                        Bindings scope = engineJRuby.createBindings();
+                        scope.put("products", table.getModel().getProducts());
+                        Object result = engineJRuby.eval(skrypt,scope);
+                        tab2.area2.setText(writer.toString());
+                        table.getModel().fireTableDataChanged();
                     } catch (ScriptException e1) {
                         e1.printStackTrace();
                     }
@@ -71,6 +68,7 @@ public class Panel extends JTabbedPane {
         add("Skrypt 1", tab1);
         add("Skrypt 2", tab2);
         managerScript = new ScriptEngineManager();
+        managerScript.getEngineFactories();
         engineJRuby = managerScript.getEngineByName("jruby");
         engineJS = managerScript.getEngineByName("nashorn");
 

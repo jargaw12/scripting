@@ -7,12 +7,31 @@ public class TabScripting extends JPanel {
     private Table table;
     JButton exec;
 
+    public TextArea getArea1() {
+        return area1;
+    }
+
+    public void setArea1(TextArea area1) {
+        this.area1 = area1;
+    }
+
+    public TextArea getArea2() {
+        return area2;
+    }
+
+    public void setArea2(TextArea area2) {
+        this.area2 = area2;
+    }
+
+    TextArea area1;
+    TextArea area2;
+
     public TabScripting(Action a, Table tab) {
         this.table=tab;
         setLayout(new GridBagLayout());
         GridBagConstraints c=new GridBagConstraints();
-        TextArea area1=new TextArea();
-        TextArea area2=new TextArea();
+        area1=new TextArea();
+        area2=new TextArea();
         exec=new JButton(a);
         exec.setEnabled(false);
         table.getModel().addTableModelListener(new TableModelListener() {
@@ -23,6 +42,7 @@ public class TabScripting extends JPanel {
             }
         });
         area2.setEditable(false);
+
         c.fill=GridBagConstraints.BOTH;
         c.weightx=1;
         c.gridx=0;

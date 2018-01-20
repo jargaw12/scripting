@@ -12,11 +12,11 @@ public class Table {
         model = new DefaultTableModel();
         table = new JTable(model);
         table.setPreferredScrollableViewportSize(new Dimension(600, 300));
-        model.addColumn("Cos 1");
-        model.addColumn("Cos 2");
-        model.addColumn("Cos 3");
-        model.addColumn("Cos 4");
-        model.addColumn("Cos 5");
+        model.addColumn("Koszyk");
+        model.addColumn("Cena");
+        model.addColumn("Srednia");
+        model.addColumn("XD");
+        model.addColumn("XDD");
     }
 
     public void read(File file) throws FileNotFoundException {

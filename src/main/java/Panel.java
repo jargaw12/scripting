@@ -16,7 +16,7 @@ public class Panel extends JTabbedPane  {
         public void actionPerformed(ActionEvent e) {
             SwingUtilities.invokeLater(new Runnable() {
                 public void run() {
-                    //TODO silnik skryptowy 1
+                    //TODO todododdooosilnik skryptowy 1
 
                 }
             });
@@ -27,7 +27,7 @@ public class Panel extends JTabbedPane  {
         public void actionPerformed(ActionEvent e) {
             SwingUtilities.invokeLater(new Runnable() {
                 public void run() {
-                    //TODO silnik skryptowy 2
+                    //TODO tudoduuu silnik skryptowy 2
                 }
             });
         }

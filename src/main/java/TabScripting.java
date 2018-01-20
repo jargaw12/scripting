@@ -33,7 +33,7 @@ public class TabScripting extends JPanel {
         area1=new TextArea();
         area2=new TextArea();
         exec=new JButton(a);
-        exec.setEnabled(false);
+        exec.setEnabled(true);
         table.getModel().addTableModelListener(new TableModelListener() {
             public void tableChanged(TableModelEvent e) {
                 if (!exec.isEnabled() && table.getModel().getRowCount()>0){

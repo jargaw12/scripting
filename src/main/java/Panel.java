@@ -8,35 +8,24 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 
 
-public class Panel extends JTabbedPane  {
-    private Table table;
+public class Panel extends JTabbedPane {
     ScriptEngineManager managerScript;
     ScriptEngine engineJRuby;
     ScriptEngine engineJS;
     TabScripting tab1;
     TabScripting tab2;
-
-    public Panel() {
-        table=new Table();
-        tab1 = new TabScripting(s1, table);
-        tab2 = new TabScripting(s2, table);
-        add("Dane i modyfikacja",new TabData(table));
-        add("Skrypt 1",new TabScripting(s1, table));
-        add("Skrypt 2",new TabScripting(s2, table));
-        managerScript =    new ScriptEngineManager();
-        engineJRuby=managerScript.getEngineByName("jruby");
-        engineJS = managerScript.getEngineByName("nashorn");
-
-    }
+    String skrypt;
+    Reader reader;
+    InputStream in;
 
     Action s1 = new AbstractAction("Uruchom skrypt 1") {
         public void actionPerformed(ActionEvent e) {
 
             SwingUtilities.invokeLater(new Runnable() {
                 public void run() {
-                    String skrypt = tab1.getArea1().getText();
-                    InputStream in = this.getClass().getResourceAsStream(skrypt);
-                    Reader reader = new InputStreamReader(in);
+                    skrypt = tab1.getArea1().getText();
+                    in = this.getClass().getResourceAsStream(skrypt);
+                    reader = new InputStreamReader(in);
                     try {
                         engineJS.eval(reader);
                     } catch (ScriptException e1) {
@@ -47,14 +36,14 @@ public class Panel extends JTabbedPane  {
             });
         }
     };
-
     Action s2 = new AbstractAction("Uruchom skrypt 2") {
         public void actionPerformed(ActionEvent e) {
             SwingUtilities.invokeLater(new Runnable() {
                 public void run() {
-                    String skrypt = tab1.getArea1().getText();
-                    InputStream in = this.getClass().getResourceAsStream(skrypt);
-                    Reader reader = new InputStreamReader(in);
+
+                    skrypt = tab2.area1.getText().toString();
+                    in = this.getClass().getResourceAsStream(skrypt);
+                    reader = new InputStreamReader(in);
                     try {
                         engineJRuby.eval(reader);
                     } catch (ScriptException e1) {
@@ -64,7 +53,20 @@ public class Panel extends JTabbedPane  {
             });
         }
     };
+    private Table table;
 
+    public Panel() {
+        table = new Table();
+        tab1 = new TabScripting(s1, table);
+        tab2 = new TabScripting(s2, table);
+        add("Dane i modyfikacja", new TabData(table));
+        add("Skrypt 1", tab1);
+        add("Skrypt 2", tab2);
+        managerScript = new ScriptEngineManager();
+        engineJRuby = managerScript.getEngineByName("jruby");
+        engineJS = managerScript.getEngineByName("nashorn");
+
+    }
 
     public Table getTable() {
         return table;

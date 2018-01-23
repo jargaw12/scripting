@@ -42,6 +42,23 @@ public class ProductDataModel extends AbstractTableModel {
         fireTableDataChanged();
     }
 
+    @Override
+    public boolean isCellEditable(int rowIndex, int columnIndex) {
+        return true;
+    }
+
+    @Override
+    public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
+        if (columnIndex==0){
+            products.get(rowIndex).setName(aValue.toString());
+        }
+        else if (columnIndex==1){
+            products.get(rowIndex).setPrice((double)aValue);
+        }
+        else {
+            products.get(rowIndex).setQuantity((int)aValue);
+        }
+    }
 
     @Override
     public Class<?> getColumnClass(int columnIndex) {

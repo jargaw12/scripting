@@ -9,9 +9,6 @@ public class Panel extends JTabbedPane {
     ScriptEngine engineJS;
     TabScripting tab1;
     TabScripting tab2;
-    String skrypt;
-    Reader reader;
-    InputStream in;
 
     Action s1 = new AbstractAction("Uruchom skrypt Nashorn") {
         public void actionPerformed(ActionEvent e) {
@@ -20,14 +17,17 @@ public class Panel extends JTabbedPane {
                 public void run() {
                     tab1.area2.setText("");
                     StringWriter writer = new StringWriter();
+                    StringWriter err = new StringWriter();
+                    String in= tab1.area1.getText().toString();
                     engineJS.getContext().setWriter(writer);
-                    skrypt = tab1.area1.getText().toString();
+                    engineJS.getContext().setErrorWriter(err);
                     try {
                         Bindings scope = engineJS.createBindings();
                         scope.put("products", table.getModel().getProducts());
-                       Object result =  engineJS.eval(skrypt,scope);
+                       Object result =  engineJS.eval(in,scope);
 
                         tab1.area2.setText(writer.toString());
+                        tab1.area2.setText(err.toString());
                         table.getModel().fireTableDataChanged();
                     } catch (ScriptException e1) {
                         e1.printStackTrace();
@@ -43,12 +43,14 @@ public class Panel extends JTabbedPane {
                 public void run() {
                     tab2.area2.setText("");
                     StringWriter writer = new StringWriter();
+                    StringWriter err = new StringWriter();
+                    String in = tab2.area1.getText().toString();
                     engineJRuby.getContext().setWriter(writer);
-                    skrypt = tab2.area1.getText().toString();
+                    engineJRuby.getContext().setErrorWriter(err);
                     try {
                         Bindings scope = engineJRuby.createBindings();
                         scope.put("products", table.getModel().getProducts());
-                        Object result = engineJRuby.eval(skrypt,scope);
+                        Object result = engineJRuby.eval(in,scope);
                         tab2.area2.setText(writer.toString());
                         table.getModel().fireTableDataChanged();
                     } catch (ScriptException e1) {
@@ -68,7 +70,6 @@ public class Panel extends JTabbedPane {
         add("Skrypt 1", tab1);
         add("Skrypt 2", tab2);
         managerScript = new ScriptEngineManager();
-        managerScript.getEngineFactories();
         engineJRuby = managerScript.getEngineByName("jruby");
         engineJS = managerScript.getEngineByName("nashorn");
 

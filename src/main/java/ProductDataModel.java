@@ -56,7 +56,7 @@ public class ProductDataModel extends AbstractTableModel {
             products.get(rowIndex).setPrice((double)aValue);
         }
         else {
-            products.get(rowIndex).setQuantity((int)aValue);
+            products.get(rowIndex).setQuantity((double)aValue);
         }
     }
 

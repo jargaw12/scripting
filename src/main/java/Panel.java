@@ -23,15 +23,15 @@ public class Panel extends JTabbedPane {
     Action s1 = new AbstractAction("Uruchom skrypt Nashorn") {
         public void actionPerformed(ActionEvent e) {
 
-            SwingUtilities.invokeLater(new Runnable() {
-                public void run() {
+            SwingWorker worker = new SwingWorker() {
+                @Override
+                protected Object doInBackground() throws Exception {
                     tab1.area2.setText("");
                     StringWriter writer = new StringWriter();
                     StringWriter err = new StringWriter();
                     String in = tab1.area1.getText().toString();
                     engineJS.getContext().setWriter(writer);
                     engineJS.getContext().setErrorWriter(err);
-
                     try {
                         Bindings scope = engineJS.createBindings();
                         scope.put("products", table.getModel().getProducts());
@@ -47,14 +47,18 @@ public class Panel extends JTabbedPane {
                         }
                         //e1.printStackTrace();
                     }
+                    return null;
                 }
-            });
+            };
+            worker.execute();
         }
     };
+
     Action s2 = new AbstractAction("Uruchom skrypt Ruby") {
         public void actionPerformed(ActionEvent e) {
-            SwingUtilities.invokeLater(new Runnable() {
-                public void run() {
+            SwingWorker worker = new SwingWorker() {
+                @Override
+                protected Object doInBackground() throws Exception {
                     tab2.area2.setText("");
                     StringWriter writer = new StringWriter();
                     StringWriter err = new StringWriter();
@@ -75,8 +79,10 @@ public class Panel extends JTabbedPane {
                         }
                         //e1.printStackTrace();
                     }
+                    return null;
                 }
-            });
+            };
+            worker.execute();
         }
     };
 

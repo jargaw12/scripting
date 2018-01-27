@@ -1,0 +1,4 @@
+var sum=0;
+for each (var p in products)
+sum=sum+p.getPrice();
+print('Średnia cena produktu:\n'+sum/products.size());

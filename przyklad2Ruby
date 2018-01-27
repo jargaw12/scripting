@@ -1,0 +1,5 @@
+sum=0;
+$products.each { |item|
+    sum=sum+item.getPrice()
+    }
+puts "Średnia cena produktu:\n#{sum/$products.size()}"

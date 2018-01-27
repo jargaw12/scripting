@@ -69,11 +69,11 @@ public class Panel extends JTabbedPane {
                         table.getModel().fireTableDataChanged();
                     } catch (ScriptException e1) {
                         engineJRuby.getContext().setErrorWriter(err);
-                        if (false) {
-                            //String jsStackTrace = RubyException.getScriptStackString(e1.getCause());
-                            tab2.area2.setText("");
+                        if (e1.getCause() instanceof org.jruby.exceptions.RaiseException) {
+                            String jsStackTrace = getScriptStackString(e1.getCause());
+                            tab2.area2.setText(jsStackTrace);
                         }
-                         e1.printStackTrace();
+                        //e1.printStackTrace();
                     }
                 }
             });

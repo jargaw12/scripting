@@ -1,0 +1,4 @@
+$products.each { |item|
+    item.setPrice(item.getPrice()+1)
+    }
+puts "Cena każdego z produktów została zwiększona o 1"

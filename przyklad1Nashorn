@@ -1,0 +1,3 @@
+for each (var p in products)
+p.setPrice(p.getPrice()+1);
+print('Cena każdego z produktów została powiększona o 1');
